@@ -6,17 +6,10 @@
 /*   By: tduprez <tduprez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 09:38:48 by tduprez           #+#    #+#             */
-/*   Updated: 2022/11/22 16:11:37 by tduprez          ###   ########lyon.fr   */
+/*   Updated: 2022/11/25 21:18:44 by tduprez          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "libft.h"
-// #include <stdarg.h>
-// #include <unistd.h>
-// quand printf compte la len : %d ou %s == 1 et non pas 2
-// probleme de depassement de memoire a cause de i += 2 si on a seulement -->
-// --> une len de 2 | ex : "%c", on essaye d'ecrire apres le c
-#include <stdlib.h>
 #include "ft_printf.h"
 
 int	ft_check(char c, char *charset)
@@ -62,21 +55,21 @@ int	ft_printf(const char *s, ...)
 {
 	int		i;
 	int		len;
-	int		count;
 	va_list	arg;
 
 	i = 0;
 	len = 0;
-	count = 0;
-	if (write(1, 0, 0) == -1)
+	if (!s || write(1, 0, 0) == -1)
 		return (-1);
 	va_start(arg, s);
 	while (s[i])
 	{
 		if (s[i] == '%' && ft_check(s[i + 1], "cspdiuxX%%") == 1)
 		{
-			len += ft_if_forest(arg, s[i + 1]);
 			i++;
+			if (s[i] == '\0')
+				return (len);
+			len += ft_if_forest(arg, s[i]);
 		}
 		else
 			len += ft_putchar(s[i]);
