@@ -1,27 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_base.c                                   :+:      :+:    :+:   */
+/*   ft_putstrerr.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tduprez <tduprez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/18 13:45:09 by tduprez           #+#    #+#             */
-/*   Updated: 2022/11/22 14:50:10 by tduprez          ###   ########lyon.fr   */
+/*   Created: 2023/01/17 11:17:22 by tduprez           #+#    #+#             */
+/*   Updated: 2023/01/17 11:18:52 by tduprez          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_putnbr_base(unsigned int nb, char *charset)
+void	ft_putchar_err(char c)
 {
-	int	count;
+	write(2, &c, 1);
+}
 
-	count = 0;
-	if (nb >= 16)
-		count += ft_putnbr_base(nb / 16, charset);
-	if (nb % 16 >= 10)
-		count += ft_putchar(charset[nb % 16 - 10]);
-	else
-		count += ft_putchar(nb % 16 + '0');
-	return (count);
+int	ft_putstrerr(const char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str == NULL)
+	{
+		write(1, "(null)", 6);
+		return (6);
+	}
+	while (str[i])
+	{
+		ft_putchar_err(str[i]);
+		i++;
+	}
+	return (i);
 }

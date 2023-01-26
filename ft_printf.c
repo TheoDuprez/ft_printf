@@ -6,7 +6,7 @@
 /*   By: tduprez <tduprez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 09:38:48 by tduprez           #+#    #+#             */
-/*   Updated: 2022/11/25 21:18:44 by tduprez          ###   ########lyon.fr   */
+/*   Updated: 2023/01/17 11:22:06 by tduprez          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,7 @@ int	ft_if_forest(va_list arg, char c)
 		return (len = ft_putstr(va_arg(arg, char *)));
 	else if (c == 'p')
 		return (len = ft_putmemory((unsigned long)va_arg(arg, void *)));
-	else if (c == 'd')
-		return (len = ft_putnbr(va_arg(arg, int)));
-	else if (c == 'i')
+	else if (c == 'd' || c == 'i')
 		return (len = ft_putnbr(va_arg(arg, int)));
 	else if (c == 'u')
 		return (len = ft_putnbr_unsign(va_arg(arg, unsigned int)));
@@ -46,6 +44,8 @@ int	ft_if_forest(va_list arg, char c)
 		return (len = ft_putnbr_base(va_arg(arg, int), "abcdef"));
 	else if (c == 'X')
 		return (len = ft_putnbr_base(va_arg(arg, int), "ABCDEF"));
+	else if (c == 'e')
+		return (len = ft_putstrerr(va_arg(arg, char *)));
 	else if (c == '%')
 		return (len = ft_putchar('%'));
 	return (0);
@@ -64,14 +64,14 @@ int	ft_printf(const char *s, ...)
 	va_start(arg, s);
 	while (s[i])
 	{
-		if (s[i] == '%' && ft_check(s[i + 1], "cspdiuxX%%") == 1)
+		if (s[i] == '%' && ft_check(s[i + 1], "csepdiuxX%%") == 1)
 		{
 			i++;
 			if (s[i] == '\0')
 				return (len);
 			len += ft_if_forest(arg, s[i]);
 		}
-		else
+		else if (s[i] != '%')
 			len += ft_putchar(s[i]);
 		i++;
 	}

@@ -6,16 +6,23 @@
 #    By: tduprez <tduprez@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/18 17:37:07 by tduprez           #+#    #+#              #
-#    Updated: 2022/11/22 16:07:23 by tduprez          ###   ########lyon.fr    #
+#    Updated: 2023/01/26 15:54:00 by tduprez          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libftprintf.a
+NAME = ft_printf.a
 
-SRCS = 	ft_print_memory.c	ft_printf.c	ft_putchar.c	ft_putnbr_base.c	ft_putnbr_unsign.c	ft_putnbr.c	\
-		ft_putmemory.c	ft_putstr.c
+SRCS = 	ft_printf.c \
+		ft_putnbr.c	\
+		ft_putstr.c \
+		ft_putchar.c \
+		ft_putstrerr.c \
+		ft_putmemory.c \
+		ft_putnbr_base.c \
+		ft_print_memory.c \
+		ft_putnbr_unsign.c \
 
-HEADER = ..
+HEADER = ft_printf.h
 
 OBJS = $(SRCS:.c=.o)
 
@@ -27,18 +34,27 @@ RM = rm -f
 
 AR = ar rcs
 
-%.o:	%.c
-	$(CC) $(FLAGS) -c $< -o $(<:.c=.o) -I $(HEADER)
+%.o:	%.c $(HEADER)
+	@$(CC) $(FLAGS) -c $< -o $@ -I $(HEADER)
 
 all:	$(NAME)
+
 $(NAME): $(OBJS)
-	$(AR) $(NAME) $(OBJS)
+	@echo "\033[0;34m Compiling ft_printf"
+	@$(AR) $(NAME) $(OBJS)
+	@echo "\033[0;32m Ft_printf successfully compiled !"
 
 clean:
-	$(RM) $(OBJS)
+	@echo "\033[0;33m Cleaning objects files"
+	@$(RM) $(OBJS)
+	@echo "\033[0;32m Objects files successfully cleaned !"
 
-fclean: clean
-	$(RM) $(NAME)
+fclean:
+	@echo "\033[0;35m Cleaning objects files an library"
+	@$(RM) $(NAME)
+	@$(RM) $(OBJS)
+	@echo "\033[0;32m Objects files and library successfully cleaned !"
+
 
 re: fclean all
 
